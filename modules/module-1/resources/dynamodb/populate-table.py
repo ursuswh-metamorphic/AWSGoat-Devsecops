@@ -6,7 +6,7 @@ import os
 session=boto3.Session(aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'], aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'])
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 
-time.sleep(5)
+time.sleep(60)
 table_1 = dynamodb.Table('blog-users')
 db_file_json_1 = open('resources/dynamodb/blog-users.json')
 db_file_1 = json.loads(db_file_json_1.read())
