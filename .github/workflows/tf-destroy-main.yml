@@ -59,12 +59,3 @@ jobs:
         cd modules/${{ github.event.inputs.module }}
         terraform destroy -auto-approve -input=false
       continue-on-error: false
-
-    - name: Force Cleanup IAM Stubborn Resources
-      run: |
-        aws iam remove-role-from-instance-profile --instance-profile-name AWS_GOAT_ec2_profile --role-name AWS_GOAT_ROLE || echo "Role already removed"
-        aws iam delete-instance-profile --instance-profile-name AWS_GOAT_ec2_profile || echo "Profile already deleted"
-        for policy_arn in $(aws iam list-attached-role-policies --role-name AWS_GOAT_ROLE --query 'AttachedPolicies[*].PolicyArn' --output text); do
-          aws iam detach-role-policy --role-name AWS_GOAT_ROLE --policy-arn "$policy_arn"
-        done
-        aws iam delete-role --role-name AWS_GOAT_ROLE || echo "Role already deleted"
